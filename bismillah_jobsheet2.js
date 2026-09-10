@@ -30,47 +30,53 @@ const products = [
   }
 ];
 
-const allTags = products.map(p=> p.tags).flat();
-console.log("All Tags: ", allTags);
+// const allTags = products.map(p=> p.tags).flat();
+// console.log("All Tags: ", allTags);
 
-function findProductByTag(product, tag) {
-  return products.filter(p => p.tags.includes(tag));
-}
-console.log("Products tag 'mobile': ", findProductByTag(products, "mobile"));
+// function findProductByTag(product, tag) {
+//   return products.filter(p => p.tags.includes(tag));
+// }
+// console.log("Products tag 'mobile': ", findProductByTag(products, "mobile"));
 
-function getProductReviewCounts(products) {
-  return products.map(p => ({
-    id: p.id,
-    title: p.title,
-    totalReviews: p.reviews.length
-  }));
-}
-console.log(getProductReviewCounts(products));
+// function getProductReviewCounts(products) {
+//   return products.map(p => ({
+//     id: p.id,
+//     title: p.title,
+//     totalReviews: p.reviews.length
+//   }));
+// }
+// console.log(getProductReviewCounts(products));
 
-const fiveStarReviews = products.flatMap(p => p.reviews).filter(r => r.rating === 5);
-console.log("Review dengan rating 5:", fiveStarReviews);
+// const fiveStarReviews = products.flatMap(p => p.reviews).filter(r => r.rating === 5);
+// console.log("Review dengan rating 5:", fiveStarReviews);
 
-function calculateManualAverageRatings(products) {
-  return products.map(p => {
-    if (p.reviews.length === 0) return { title: p.title, averageRating: 0 };
+// function calculateManualAverageRatings(products) {
+//   return products.map(p => {
+//     if (p.reviews.length === 0) return { title: p.title, averageRating: 0 };
     
-    const sum = p.reviews.reduce((total, review) => total + review.rating, 0);
-    const average = sum / p.reviews.length;
+//     const sum = p.reviews.reduce((total, review) => total + review.rating, 0);
+//     const average = sum / p.reviews.length;
     
-    return {
-      title: p.title,
-      averageRating: average
-    };
-  });
-}
-console.log(calculateManualAverageRatings(products));
+//     return {
+//       title: p.title,
+//       averageRating: average
+//     };
+//   });
+// }
+// console.log(calculateManualAverageRatings(products));
 
-function findProductWithMostReviews(products) {
-  return products.reduce((max, current) => 
-    current.reviews.length > max.reviews.length ? current : max
-  );
-}
-console.log("Produk review terbanyak:", findProductWithMostReviews(products));
+// function findProductWithMostReviews(products) {
+//   return products.reduce((max, current) => 
+//     current.reviews.length > max.reviews.length ? current : max
+//   );
+// }
+// console.log("Produk review terbanyak:", findProductWithMostReviews(products));
 
-const allRatings = products.flatMap(p => p.reviews.map(r => r.rating));
-console.log("Seluruh nilai rating:", allRatings);
+// const allRatings = products.flatMap(p => p.reviews.map(r => r.rating));
+// console.log("Seluruh nilai rating:", allRatings);
+
+const allTags = products.flatMap(p => p.tags);
+console.log("Semua Tags:", allTags);
+
+const allComments = products.flatMap(p => p.reviews.map(r => r.comment));
+console.log("Semua Komentar:", allComments);
