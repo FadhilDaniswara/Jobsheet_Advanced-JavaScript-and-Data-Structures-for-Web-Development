@@ -31,36 +31,68 @@ const products = [
   { id: 30, title: "Casing PC Gaming", price: 110, category: "components", stock: 6 }
 ];
 
-// function binarySearch(arr, target) {
-//   let left = 0;
-//   let right = arr.length - 1;
-//   while (left <= right) {
-//     const mid = Math.floor((left + right) / 2);
-//     if (arr[mid].id === target) return mid;
-//     if (arr[mid].id < target) left = mid + 1;
-//     else right = mid - 1;
+// const products = [
+//   {
+//     id: 1,
+//     title: "Laptop",
+//     price: 1200,
+//     rating: 4.5,
+//     stock: 10,
+//     category: "laptops",
+//     tags: ["computer", "electronics", "office"],
+//     dimensions: { width: 30, height: 2, depth: 20 },
+//     reviews: [
+//       { user: "A", rating: 5, comment: "Good product" },
+//       { user: "B", rating: 4, comment: "Worth it" }
+//     ]
+//   },
+//   {
+//     id: 2,
+//     title: "Smartphone",
+//     price: 800,
+//     rating: 4.2,
+//     stock: 15,
+//     category: "phones",
+//     tags: ["mobile", "electronics"],
+//     dimensions: { width: 7, height: 0.8, depth: 15 },
+//     reviews: [
+//       { user: "C", rating: 4, comment: "Nice camera" },
+//       { user: "D", rating: 5, comment: "Fast" },
+//       { user: "E", rating: 3, comment: "Battery so-so" }
+//     ]
 //   }
-//   return -1;
-// }
+// ];
 
-const sortedProductsByPrice = [...products].sort((a, b) => a.price - b.price);
-
-function binarySearchByPrice(sortedProductsByPrice, targetPrice) {
-  let left = 0;
-  let right = sortedProductsByPrice.length - 1;
-
-  while (left <= right) {
-    const mid = Math.floor((left + right) / 2);
-
-    if (sortedProductsByPrice[mid].price === targetPrice) {
-      return sortedProductsByPrice[mid];
-    } else if (sortedProductsByPrice[mid].price < targetPrice) {
-      left = mid + 1;
-    } else {
-      right = mid - 1;
-    }
+function bubbleSort(numbers) {
+  const arr =[...numbers];
+  for (let i = 0; i < arr.length - 1; i++) {
+    for (let j = 0; j < arr.length - 1 - i; j++) {
+      if (arr[j] > arr[j + 1]) {
+        [arr[j] , arr[j + 1]] = [arr[j + 1], arr[j]];
+      }
+    } 
   }
-  return undefined;
+  return arr;
 }
 
-console.log("Cari produk dengan harga 45:", binarySearchByPrice(sortedProductsByPrice, 45)); 
+function sortProducts(products, sortBy) {
+ const sorted = [...products];
+ switch (sortBy) {
+  case "price-asc":
+    return sorted.sort((a, b) => a.price - b.price);
+  case "price-desc":
+    return sorted.sort((a, b) => b.price - a.price);
+  case "rating":
+    return sorted.sort((a, b) => b.rating - a.rating);
+  case "title":
+    return sorted.sort((a, b) => a.title.localeCompare(b.title));
+  default:
+    return sorted;
+  }
+ }
+
+const angkaAcak = [5, 3, 8, 1, 2, 7];
+const angkaSorted = bubbleSort(angkaAcak);
+console.log("awal :", angkaAcak);
+console.log("sorted :", angkaSorted);
+console.log("Products sorted by price ascending:", sortProducts(products, "price-asc"));
