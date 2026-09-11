@@ -1,15 +1,3 @@
-function linearSearch(array, target) {
-  for (let i = 0; i < array.length; i++) {
-    if (array[i] === target) {
-      return i;
-    }
-  }
-  return -1;
-}
-
-const angka = [10, 20, 30, 40, 50];
-console.log("Angka 20 ada di :", linearSearch(angka, 20));
-
 const products = [
   { id: 1, title: "Laptop", price: 1200, category: "laptops", stock: 5 },
   { id: 2, title: "Smartphone", price: 800, category: "phones", stock: 15 },
@@ -43,12 +31,36 @@ const products = [
   { id: 30, title: "Casing PC Gaming", price: 110, category: "components", stock: 6 }
 ];
 
-function searchProductById(products, id) {
-  for (let i = 0; i < products.length; i++) {
-    if (products[i].id === id) {
-      return i;
+// function binarySearch(arr, target) {
+//   let left = 0;
+//   let right = arr.length - 1;
+//   while (left <= right) {
+//     const mid = Math.floor((left + right) / 2);
+//     if (arr[mid].id === target) return mid;
+//     if (arr[mid].id < target) left = mid + 1;
+//     else right = mid - 1;
+//   }
+//   return -1;
+// }
+
+const sortedProductsByPrice = [...products].sort((a, b) => a.price - b.price);
+
+function binarySearchByPrice(sortedProductsByPrice, targetPrice) {
+  let left = 0;
+  let right = sortedProductsByPrice.length - 1;
+
+  while (left <= right) {
+    const mid = Math.floor((left + right) / 2);
+
+    if (sortedProductsByPrice[mid].price === targetPrice) {
+      return sortedProductsByPrice[mid];
+    } else if (sortedProductsByPrice[mid].price < targetPrice) {
+      left = mid + 1;
+    } else {
+      right = mid - 1;
     }
   }
-  return -1;
+  return undefined;
 }
-console.log("Produk dengan ID 1 ada di :", searchProductById(products, 1));
+
+console.log("Cari produk dengan harga 45:", binarySearchByPrice(sortedProductsByPrice, 45)); 
