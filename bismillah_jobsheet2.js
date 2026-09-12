@@ -39,18 +39,19 @@ const sampleProducts = [
   {id: 5, title: "Headphone Z", category: "audio", rating: 2.4, tags: ["electronics"], brand: "Sony"}
 ];
 
-function getUniqueCategories(products) {
-  return[...new Set(products.map(p => p.category))];
+// const productMap = new Map();
+// for (const product of products) {
+// productMap.set(product.id, product);
+// }
+// productMap.get(10);
+
+function buildProductLookup(products) {
+  const productMap = new Map();
+  for (const product of products) {
+    productMap.set(product.id, product);
+  }
+return productMap;
 }
 
-function getUniqueBrands(products) {
-  return [...new Set(products.map(p => p.brand || "Unbranded"))];
-}
-
-function getUniqueTags(products) {
-  return[...new Set(products.flatMap(p => p.tags || []))];
-}
-
-console.log("Unique Categories :", getUniqueCategories(sampleProducts));
-console.log("Unique Brands :", getUniqueBrands(sampleProducts));
-console.log("Unique Tags :", getUniqueTags(sampleProducts));
+const productLookup = buildProductLookup(sampleProducts);
+console.log("Lookup ID 3 :" , productLookup.get(4).title);
