@@ -31,17 +31,6 @@
 //   { id: 30, title: "Casing PC Gaming", price: 110, category: "components", stock: 6 }
 // ];
 
-function countFrequency(array) {
-  return array.reduce((counts, item) => {
-  counts[item] = (counts[item] || 0) + 1;
-  return counts;
-}, {});
-}
-
-const words = ["laptop", "phone", "laptop", "tablet", "phone", "laptop"];
-const wordsFrequency = countFrequency(words);
-console.log(wordsFrequency);
-
 const sampleProducts = [
   {id: 1, title: "Laptop A", category: "laptops", rating: 4.5, tags: ["computer", "office"], brand: "Apple"},
   {id: 2, title: "Laptop B", category: "laptops", rating: 3.8, tags: ["computer", "gaming"], brand: "Asus"},
@@ -50,27 +39,18 @@ const sampleProducts = [
   {id: 5, title: "Headphone Z", category: "audio", rating: 2.4, tags: ["electronics"], brand: "Sony"}
 ];
 
-function getCategoryFrequency(products) {
-  const categories = products.map(p => p.category);
-  return countFrequency(categories);
+function getUniqueCategories(products) {
+  return[...new Set(products.map(p => p.category))];
 }
 
-function getTagFrequency(products) {
-  const allTags = products.flatMap(p => p.tags || []);
-  return countFrequency(allTags);
+function getUniqueBrands(products) {
+  return [...new Set(products.map(p => p.brand || "Unbranded"))];
 }
 
-function getRatingFrequency(products) {
-  const roundedRatings = products.map(p => Math.round(p.rating));
-  return countFrequency(roundedRatings);
+function getUniqueTags(products) {
+  return[...new Set(products.flatMap(p => p.tags || []))];
 }
 
-function getBrandFrequency(products) {
-  const brands = products.map(p => p.brand || "Unbranded");
-  return countFrequency(brands);
-}
-
-console.log("Frekuensi Kategori :", getCategoryFrequency(sampleProducts));
-console.log("Frekuensi Tags :", getTagFrequency(sampleProducts));
-console.log("Frekuensi Rating :", getRatingFrequency(sampleProducts));
-console.log("Frekuensi Brand :", getBrandFrequency(sampleProducts));
+console.log("Unique Categories :", getUniqueCategories(sampleProducts));
+console.log("Unique Brands :", getUniqueBrands(sampleProducts));
+console.log("Unique Tags :", getUniqueTags(sampleProducts));
