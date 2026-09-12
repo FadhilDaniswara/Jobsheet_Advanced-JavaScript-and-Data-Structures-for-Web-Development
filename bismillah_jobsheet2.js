@@ -39,19 +39,55 @@ const sampleProducts = [
   {id: 5, title: "Headphone Z", category: "audio", rating: 2.4, tags: ["electronics"], brand: "Sony"}
 ];
 
-// const productMap = new Map();
-// for (const product of products) {
-// productMap.set(product.id, product);
-// }
-// productMap.get(10);
-
-function buildProductLookup(products) {
-  const productMap = new Map();
-  for (const product of products) {
-    productMap.set(product.id, product);
+class Stack {
+  constructor() {
+    this.items = [];
   }
-return productMap;
+  push(item) {
+    this.items.push(item);
+  }
+
+  pop() {
+    return this.items.pop();
+  }
+
+  peek() {
+    return this.items[this.items.length - 1];
+  }
+
+  isEmpty() {
+    return this.items.length === 0;
+  }
 }
 
-const productLookup = buildProductLookup(sampleProducts);
-console.log("Lookup ID 3 :" , productLookup.get(4).title);
+class SearchManager {
+  constructor() {
+    this.historyStack = new Stack();
+  }
+  executeSearch(keyword) {
+    if(keyword && keyword.trim() !== "") {
+      this.historyStack.push(keyword);
+      console.log(`[Search] Mencari : "${keyword}"`); 
+    }
+  }
+
+  undoSearch() {
+    if (this.historyStack.isEmpty()) {
+        console.log("[Undo] Riwayat pencarian kosong.");
+    return null;
+  }
+  const lastSearch = this.historyStack.pop();
+  const previousSearch = this.historyStack.peek() || "Halaman utama (tanpa filter)";
+
+  console.log(`[Undo] Memicu undo dari "${lastSearch}" -> Kembali ke: "${previousSearch}"`);
+  return previousSearch;
+  }
+}
+
+const searchApp = new SearchManager();
+searchApp.executeSearch("laptop");
+searchApp.executeSearch("phone");
+searchApp.executeSearch("mouse");
+
+searchApp.undoSearch();
+searchApp.undoSearch();
