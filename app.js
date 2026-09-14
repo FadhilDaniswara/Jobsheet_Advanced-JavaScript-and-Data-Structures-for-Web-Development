@@ -41,29 +41,36 @@ const initialProducts = [
   }
 ];
 
-function renderProducts(products) {
+const renderProducts = (products = []) => {
   const container = document.querySelector("#product-list");
   if (!container) return;
 
   container.innerHTML = "";
+  
+  if (products.length === 0) {
+    container.innerHTML = "<p>Produk tidak ditemukan.</p>";
+    return;
+  }
 
   for (const product of products) {
+    const { title, price, category, rating, thumbnail } = product;
+
     const card = document.createElement("div");
     card.classList.add("product-card");
     
     card.innerHTML = `
-      <img src="${product.thumbnail}" alt="${product.title}">
-      <h3>${product.title}</h3>
-      <p>Kategori: ${product.category}</p>
-      <p>Harga: $${product.price}</p>
-      <p>Rating: ${product.rating}</p>
+      <img src="${thumbnail ?? 'https://dummyjson.com/image/150'}}" alt="${title}">
+      <h3>${title}</h3>
+      <p>Kategori: ${category}</p>
+      <p>Harga: $${price}</p>
+      <p>Rating: ${rating}</p>
     `;
     
     container.append(card);
   }
 }
 
-//start bagian 18, diatas tadi bagian 17
+//start bagian 18, diatas tadi bagian 17 dan ditambahin bagian 20
 const state = {
   products: initialProducts,
   search: "",
@@ -73,16 +80,30 @@ const state = {
   status: "idle"
 };
 
-function render() {
-  let result = state.products.filter((product) => {
-    const matchesSearch = product.title
+const getStatistics = (products = []) => {
+  if (!products?.length) return { totalProducts: 0, averagePrice: 0, totalStock: 0 };
+  const totalStock = products.reduce((sum, { stock = 0 }) => sum + stock, 0);
+  const totalPrice = products.reduce((sum, { price = 0 }) => sum + price, 0);
+
+  return {
+    totalProducts: products.length,
+    averagePrice: (totalPrice / products.length).toFixed(2),
+    totalStock
+  };
+};
+
+
+const render = () => {
+let result = state.products.filter(({ title = "", category = "" }) => {    
+  const matchesSearch = title
     .toLowerCase()
     .includes(state.search.toLowerCase().trim());
 
     const matchesCategory =
-      state.category === "all" || product.category === state.category;
+      state.category === "all" || category === state.category;    
     return matchesSearch && matchesCategory;
   });
+
   if (state.sortBy !== "default") {
     result = [...result].sort((a, b) => {
       if (state.sortBy === "price-asc") return a.price - b.price;
@@ -96,21 +117,18 @@ function render() {
 }
 render();
 
-//start bagian 19 yohh
-const searchInput = document.querySelector("#search-input");
-searchInput?.addEventListener("input", (e) => {
+//bagian 20
+document.querySelector("#search-input")?.addEventListener("input", (e) => {
   state.search = e.target.value;
   render();
 });
 
-const categorySelect = document.querySelector("#category-select");
-categorySelect?.addEventListener("change", (e) => {
+document.querySelector("#category-select")?.addEventListener("change", (e) => {
   state.category = e.target.value;
   render();
 });
 
-const sortSelect = document.querySelector("#sort-select");
-sortSelect?.addEventListener("change", (e) => {
+document.querySelector("#sort-select")?.addEventListener("change", (e) => {
   state.sortBy = e.target.value;
   render();
 });
