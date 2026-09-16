@@ -41,3 +41,20 @@ export function renderStatusUI(status, errorMessage = "") {
         </div>`;
     }
 }
+
+export function populateCategoryDropdown(products = []) {
+  const categorySelect = document.querySelector("#category-select");
+  if (!categorySelect) return;
+
+  const categories = ["all", ...new Set(products.map((p) => p.category))];
+
+  categorySelect.innerHTML = categories
+    .map(
+      (cat) => `
+        <option value="${cat}">
+          ${cat === "all" ? "Semua Kategori" : cat.charAt(0).toUpperCase() + cat.slice(1)}
+        </option>
+      `
+    )
+    .join("");
+}

@@ -1,5 +1,5 @@
 import { state } from "./state.js";
-import { renderProducts, renderStatusUI } from "./ui.js";
+import { renderProducts, renderStatusUI, populateCategoryDropdown } from "./ui.js";
 import { filterProducts, sortProducts } from "./algorithms.js";
 import { fetchProducts } from "./api.js";
 
@@ -17,6 +17,7 @@ async function loadProducts() {
         const products = await fetchProducts();
         state.products = products;
         state.status = "success";
+        populateCategoryDropdown(products);
     } catch (error) {
         state.status = "error";
         renderStatusUI(state.status, error.message);
