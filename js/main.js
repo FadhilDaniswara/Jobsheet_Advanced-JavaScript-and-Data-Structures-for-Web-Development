@@ -1,12 +1,14 @@
 import { state } from "./state.js";
-import { renderProducts, renderStatusUI, populateCategoryDropdown } from "./ui.js";
-import { filterProducts, sortProducts } from "./algorithms.js";
+import { renderProducts, renderStatusUI, populateCategoryDropdown, renderStatistics } from "./ui.js";
+import { filterProducts, sortProducts, getStatistics } from "./algorithms.js";
 import { fetchProducts } from "./api.js";
 
 const render = () => {
     if (state.status === "loading" || state.status === "error") return;
     const filtered = filterProducts(state.products, state.search, state.category);
     const sorted = sortProducts(filtered, state.sortBy);
+    const stats = getStatistics(sorted);
+    renderStatistics(stats);
     renderProducts(sorted);
 };
 

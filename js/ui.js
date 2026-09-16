@@ -16,6 +16,7 @@ export const renderProducts = (products = []) => {
         <h3>${product.title}</h3>
         <p><strong>Kategori:</strong> ${product.category}</p>
         <p><strong>Harga:</strong> $${product.price}</p>
+        <p><strong>Stok:</strong> ${product.stock}</p>
         <p><strong>Rating:</strong> ${product.rating}</p>
         </div>
         `
@@ -57,4 +58,17 @@ export function populateCategoryDropdown(products = []) {
       `
     )
     .join("");
+}
+
+export function renderStatistics(stats) {
+  const container = document.querySelector("#stats-container");
+  if (!container) return;
+  container.innerHTML = `
+    <div class="stats-wrapper">
+      <p><strong>Total Produk:</strong> ${stats.totalProducts}</p>
+      <p><strong>Rata-rata Harga:</strong> $${stats.averagePrice}</p>
+      <p><strong>Total Stok:</strong> ${stats.totalStock}</p>
+      <p><strong>Rata-rata Rating:</strong> ${stats.averageRating}</p>
+    </div>
+  `;
 }
