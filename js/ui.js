@@ -5,23 +5,39 @@ export const renderProducts = (products = []) => {
     container.innerHTML = "";
 
     if (products.length === 0) {
-        container.innerHTML = "<p>Produk tidak ditemukan.</p>";
-        return;
+    container.innerHTML =`<div><p>Produk tidak ditemukan.</p></div>`;        
+    return;
     }
 
-    for (const product of products) {
-        const { title, price, category, rating, thumbnail } = product;
+    const cardsHTML = products.map(
+        (product) => `
+        <div class="product-card">
+        <img src="${product.thumbnail}" alt="${product.title}">
+        <h3>${product.title}</h3>
+        <p><strong>Kategori:</strong> ${product.category}</p>
+        <p><strong>Harga:</strong> $${product.price}</p>
+        <p><strong>Rating:</strong> ${product.rating}</p>
+        </div>
+        `
+        )
+        .join("");
+        container.innerHTML = cardsHTML;
+    }   
 
-        const card = document.createElement("div");
-        card.classList.add("product-card");
+export function renderStatusUI(status, errorMessage = "") {
+    const container = document.querySelector("#product-list");
+    if (!container) return;
 
-        card.innerHTML = `
-        <img src="${thumbnail ?? 'https://dummyjson.com/image/150'}" alt="${title}">
-        <h3>${title}</h3>
-        <p>Kategori: ${category}</p>
-        <p>Harga: $${price}</p>
-        <p>Rating: ${rating}</p>
-    `;
-    container.append(card);
+    if (status === "loading") {
+        container.innerHTML = `
+        <div class="status-msg loading">
+        <p>Memuat data produk dari DummyJSON...</p>
+        </div>`;
+    } else if (status === "error") {   
+        container.innerHTML = `
+        <div class="status-msg error">
+        <p>Gagal mengambil data produk: ${errorMessage}</p>
+        <small>Silakan periksa koneksi internet Anda dan coba lagi.</small>
+        </div>`;
     }
-};
+}

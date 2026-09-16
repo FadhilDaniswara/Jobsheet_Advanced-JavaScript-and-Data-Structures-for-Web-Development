@@ -1,9 +1,10 @@
 import { state } from "./state.js";
-import { renderProducts } from "./ui.js";
+import { renderProducts, renderStatusUI } from "./ui.js";
 import { filterProducts, sortProducts } from "./algorithms.js";
 import { fetchProducts } from "./api.js";
 
 const render = () => {
+    if (state.status === "loading" || state.status === "error") return;
     const filtered = filterProducts(state.products, state.search, state.category);
     const sorted = sortProducts(filtered, state.sortBy);
     renderProducts(sorted);
@@ -12,11 +13,13 @@ const render = () => {
 async function loadProducts() {
     try {
         state.status = "loading";
+        renderStatusUI(state.status);
         const products = await fetchProducts();
         state.products = products;
         state.status = "success";
     } catch (error) {
         state.status = "error";
+        renderStatusUI(state.status, error.message);
         console.error("Gagal memuat produk:", error);
     } finally {
         render();
